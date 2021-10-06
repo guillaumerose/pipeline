@@ -305,7 +305,6 @@ func TestTaskRunConversionFromDeprecated(t *testing.T) {
 		name     string
 		in       *TaskRun
 		want     *TaskRun
-		badField string
 	}{{
 		name: "inputs params",
 		in: &TaskRun{
@@ -418,12 +417,6 @@ func TestTaskRunConversionFromDeprecated(t *testing.T) {
 			t.Run(test.name, func(t *testing.T) {
 				ver := version
 				if err := test.in.ConvertTo(context.Background(), ver); err != nil {
-					if test.badField != "" {
-						cce, ok := err.(*CannotConvertError)
-						if ok && cce.Field == test.badField {
-							return
-						}
-					}
 					t.Errorf("ConvertTo() = %v", err)
 				}
 				t.Logf("ConvertTo() = %#v", ver)
